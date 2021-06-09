@@ -6,48 +6,98 @@ import Backend 1.0
 
 ApplicationWindow
 {
-    id:      root
-    visible: true
+  id:      root
+  visible: true
 
-    width:  768
-    height: 450
+  width:  768
+  height: 450
 
-    minimumWidth:  768
-    minimumHeight: 450
+  minimumWidth:  768
+  minimumHeight: 450
 
-    property string backendReference: Backend.objectName
+  property string backendReference: Backend.objectName
 
-    ScrollView {
-        id: scrollView
+  TableView
+  {
+    id: tableView
 
-        clip: true
-
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-
-        anchors.rightMargin: 10
-        anchors.leftMargin: 10
-        anchors.topMargin: 10
-        anchors.bottomMargin: 10
-
-        hoverEnabled: false
-
-        TableView {
-            id: modelResults
-
-            model: Backend.modelResults.list
-
-            delegate: Rectangle {
-                implicitWidth: 100
-                implicitHeight: 18
-
-                Text {
-                    text: display
-                }
-            }
-        }
+    columnWidthProvider: function( column )
+    {
+      return 100;
     }
-}
 
+    rowHeightProvider: function( column )
+    {
+      return 23;
+    }
+
+    anchors.fill: parent
+    topMargin:    columnsHeader.implicitHeight
+
+    model: Backend.modelResults.list
+
+    ScrollBar.horizontal: ScrollBar {}
+    ScrollBar.vertical:   ScrollBar {}
+
+    clip: true
+
+    delegate: Rectangle
+    {
+      Text
+      {
+        text: display
+        anchors.fill: parent
+        anchors.margins: 10
+        color: 'black'
+        font.pixelSize: 15
+        verticalAlignment: Text.AlignVCenter
+      }
+    }
+
+    Rectangle // mask the headers
+    {
+      z: 3
+
+      color: "#222222"
+
+      y: tableView.contentY
+      x: tableView.contentX
+
+      width:  tableView.leftMargin
+      height: tableView.topMargin
+    }
+
+    Row
+    {
+      id: columnsHeader
+      y:  tableView.contentY
+
+      z: 2
+
+      Repeater
+      {
+        model: tableView.columns > 0 ? tableView.columns : 1
+
+        Label
+        {
+          width:  tableView.columnWidthProvider(modelData)
+          height: 35
+
+          text: Backend.modelResults.list.headerData( modelData, Qt.Horizontal )
+
+          font.pixelSize:    15
+          padding:           10
+          verticalAlignment: Text.AlignVCenter
+
+          background: Rectangle
+          {
+            color: "#eeeeee"
+          }
+        }
+      }
+    }
+
+    ScrollIndicator.horizontal: ScrollIndicator { }
+    ScrollIndicator.vertical: ScrollIndicator { }
+  }
+}
