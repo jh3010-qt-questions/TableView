@@ -55,9 +55,9 @@ data( const QModelIndex& index, int role ) const
         }
     }
 
-    if ( role == Qt::DecorationRole )
+    if ( role == Qt::UserRole )
     {
-        qDebug() << "decorate 1";
+        return modelItem.selected ? "#eeeeee" : "white";
     }
 
     return result;
@@ -123,13 +123,35 @@ add( const QString& population, const int averageAge )
     add( item );
 }
 
+
+
+void
+ModelList::
+select( int index )
+{
+  for ( int x = 0; x < this->mList.length(); x++ )
+  {
+    this->mList[x].selected = ( x == index );
+  }
+
+  int size = this->mList.size();
+
+  QModelIndex topLeft = this->index( 0, 0 );
+  QModelIndex bottomRight = this->index( size, 2 );
+
+  emit this->dataChanged( topLeft, bottomRight );
+}
+
+
+
 QHash<int, QByteArray>
 ModelList::
 roleNames() const
 {
   return {
     { Qt::DisplayRole, "display" },
-    { Qt::DecorationRole, "decorations" }
+    { Qt::DecorationRole, "decorations" },
+    { Qt::UserRole, "selected" }
   };
 
 //  return this->mRoleNames;
@@ -179,10 +201,14 @@ ModelResults::ModelResults(QObject* parent)
     qRegisterMetaType<ModelItem>("ModelItem");
 }
 
+
+
 ModelList* ModelResults::list() const
 {
     return mList;
 }
+
+
 
 void ModelResults::reset()
 {

@@ -42,25 +42,14 @@ ApplicationWindow
 
     clip: true
 
-    delegate: DelegateChooser {
-//      role: "type"
-
-      DelegateChoice {
-        roleValue: "decoration"
-
-        Rectangle
+    delegate: DelegateChooser
+    {
+      DelegateChoice
+      {
+        delegate: Rectangle
         {
-          color: 'red'
+          color: selected
 
-          anchors.fill: parent
-        }
-      }
-
-      DelegateChoice {
-//        roleValue: "display"
-
-        Rectangle
-        {
           Text
           {
             text: display
@@ -70,23 +59,54 @@ ApplicationWindow
             font.pixelSize: 15
             verticalAlignment: Text.AlignVCenter
           }
+
+          MouseArea
+          {
+            anchors.fill: parent
+
+            onClicked:
+            {
+              var idx = Backend.modelResults.list.index( row, column )
+
+              console.log( "Clicked cell: ", idx.row, " ", Backend.modelResults.list.data( idx ) )
+
+              Backend.modelResults.list.select( idx.row );
+            }
+          }
         }
       }
 
+      //      DelegateChoice {
+      ////        roleValue: "display"
+
+      //        Rectangle
+      //        {
+      //          Text
+      //          {
+      //            text: display
+      //            anchors.fill: parent
+      //            anchors.margins: 10
+      //            color: 'black'
+      //            font.pixelSize: 15
+      //            verticalAlignment: Text.AlignVCenter
+      //          }
+      //        }
+      //      }
+
     }
 
-//        Rectangle
-//    {
-//      Text
-//      {
-//        text: display
-//        anchors.fill: parent
-//        anchors.margins: 10
-//        color: 'black'
-//        font.pixelSize: 15
-//        verticalAlignment: Text.AlignVCenter
-//      }
-//    }
+    //        Rectangle
+    //    {
+    //      Text
+    //      {
+    //        text: display
+    //        anchors.fill: parent
+    //        anchors.margins: 10
+    //        color: 'black'
+    //        font.pixelSize: 15
+    //        verticalAlignment: Text.AlignVCenter
+    //      }
+    //    }
 
     Rectangle // mask the headers
     {

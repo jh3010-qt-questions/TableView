@@ -24,17 +24,20 @@ struct ModelItem
 
     Q_PROPERTY( QString population MEMBER population )
     Q_PROPERTY( int averageAge MEMBER averageAge )
+    Q_PROPERTY( bool selected MEMBER selected )
 
 public:
 
     QString population;
     int     averageAge;
+    bool    selected    { false };
 
     bool operator!=( const ModelItem& other )
     {
         return other.population != this->population
             || other.averageAge != this->averageAge;
     }
+
 };
 Q_DECLARE_METATYPE( ModelItem )
 
@@ -64,6 +67,7 @@ public:
 
     Q_INVOKABLE void removeAt( int index );
     Q_INVOKABLE void add( const QString& population, const int averageAge );
+    Q_INVOKABLE void select( int index );
 
     QHash<int, QByteArray> roleNames() const override;
 
