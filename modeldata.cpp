@@ -55,10 +55,34 @@ data( const QModelIndex& index, int role ) const
         }
     }
 
-    if ( role == Qt::UserRole )
+    if ( role == int( ModelItem::Role::Selection ) )
     {
-        return modelItem.selected ? "#eeeeee" : "white";
+        result = QVariant( QString( modelItem.selected ? "#eeeeee" : "white" ) );
     }
+
+    if ( role == int( ModelItem::Role::ColumnType ) )
+    {
+      if ( index.column() == 0 )
+        result = QVariant( QString( "stringValue" ) );
+      else
+        result = QVariant( QString( "colorValue" ) );
+    }
+
+    if ( role == int( ModelItem::Role::ColorValue ) )
+    {
+      QString color;
+
+      if ( modelItem.averageAge < 13 )
+        color = "red";
+      else if ( modelItem.averageAge < 35 )
+        color = "yellow";
+      else
+        color = "green";
+
+      result = QVariant( color );
+    }
+
+    qDebug() << role << " " << result;
 
     return result;
 }
@@ -129,18 +153,16 @@ void
 ModelList::
 select( int index )
 {
+  beginResetModel();
+
   for ( int x = 0; x < this->mList.length(); x++ )
   {
     this->mList[x].selected = ( x == index );
   }
 
-  int size = this->mList.size();
-
-  QModelIndex topLeft = this->index( 0, 0 );
-  QModelIndex bottomRight = this->index( size, 2 );
-
-  emit this->dataChanged( topLeft, bottomRight );
+  endResetModel();
 }
+
 
 
 
@@ -151,7 +173,9 @@ roleNames() const
   return {
     { Qt::DisplayRole, "display" },
     { Qt::DecorationRole, "decorations" },
-    { Qt::UserRole, "selected" }
+    { int( ModelItem::Role::Selection ), "selected" },
+    { int( ModelItem::Role::ColumnType ), "type" },
+    { int( ModelItem::Role::ColorValue ), "colorValue" }
   };
 
 //  return this->mRoleNames;

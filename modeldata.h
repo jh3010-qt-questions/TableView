@@ -6,15 +6,6 @@
 #include <QAbstractTableModel>
 #include <QObject>
 
-enum EColumns
-{
-  eColumn_MarketingName  = 0,
-  eColumn_SignalStrength = 1,
-  eColumn_LastSeen       = 2
-};
-
-
-
 //
 // ModelItem
 //
@@ -27,6 +18,13 @@ struct ModelItem
     Q_PROPERTY( bool selected MEMBER selected )
 
 public:
+
+    enum class Role {
+      Selection = Qt::UserRole,
+      ColumnType,
+      ColorValue
+    };
+    Q_ENUM(Role)
 
     QString population;
     int     averageAge;

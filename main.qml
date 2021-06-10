@@ -44,6 +44,44 @@ ApplicationWindow
 
     delegate: DelegateChooser
     {
+      role: "type"
+
+      DelegateChoice
+      {
+        roleValue: "colorValue"
+
+        delegate: Rectangle
+        {
+          color: selected
+
+          Rectangle
+          {
+            color: colorValue
+
+            width: parent.height
+            height: parent.height
+
+            radius: width * 0.5;
+
+            anchors.horizontalCenter: parent.horizontalCenter;
+          }
+
+          MouseArea
+          {
+            anchors.fill: parent
+
+            onClicked:
+            {
+              var idx = Backend.modelResults.list.index( row, column )
+
+              console.log( "Clicked cell: ", idx.row, " ", Backend.modelResults.list.data( idx ) )
+
+              Backend.modelResults.list.select( idx.row );
+            }
+          }
+        }
+      }
+
       DelegateChoice
       {
         delegate: Rectangle
