@@ -7,6 +7,9 @@ ModelList::
 ModelList( QObject* parent )
     : QAbstractTableModel (parent )
 {
+//  mRoleNames = QAbstractTableModel::roleNames();
+//  mRoleNames.insert( 1, QByteArray( "type" ) );
+
 }
 
 
@@ -51,7 +54,8 @@ data( const QModelIndex& index, int role ) const
           result = QVariant( QString::number( modelItem.averageAge ) );
         }
     }
-    else if ( role == Qt::DecorationRole )
+
+    if ( role == Qt::DecorationRole )
     {
         qDebug() << "decorate 1";
     }
@@ -117,6 +121,18 @@ add( const QString& population, const int averageAge )
     item.averageAge = averageAge;
 
     add( item );
+}
+
+QHash<int, QByteArray>
+ModelList::
+roleNames() const
+{
+  return {
+    { Qt::DisplayRole, "display" },
+    { Qt::DecorationRole, "decorations" }
+  };
+
+//  return this->mRoleNames;
 }
 
 

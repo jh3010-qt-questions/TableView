@@ -6,6 +6,15 @@
 #include <QAbstractTableModel>
 #include <QObject>
 
+enum EColumns
+{
+  eColumn_MarketingName  = 0,
+  eColumn_SignalStrength = 1,
+  eColumn_LastSeen       = 2
+};
+
+
+
 //
 // ModelItem
 //
@@ -56,9 +65,12 @@ public:
     Q_INVOKABLE void removeAt( int index );
     Q_INVOKABLE void add( const QString& population, const int averageAge );
 
+    QHash<int, QByteArray> roleNames() const override;
+
 private:
 
-    QList<ModelItem> mList;
+    QList<ModelItem>        mList;
+    QHash<int, QByteArray>  mRoleNames;
 
 public slots:
 

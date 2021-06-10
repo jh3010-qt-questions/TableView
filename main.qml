@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import Qt.labs.qmlmodels 1.0
 
 import Backend 1.0
 
@@ -41,18 +42,51 @@ ApplicationWindow
 
     clip: true
 
-    delegate: Rectangle
-    {
-      Text
-      {
-        text: display
-        anchors.fill: parent
-        anchors.margins: 10
-        color: 'black'
-        font.pixelSize: 15
-        verticalAlignment: Text.AlignVCenter
+    delegate: DelegateChooser {
+//      role: "type"
+
+      DelegateChoice {
+        roleValue: "decoration"
+
+        Rectangle
+        {
+          color: 'red'
+
+          anchors.fill: parent
+        }
       }
+
+      DelegateChoice {
+//        roleValue: "display"
+
+        Rectangle
+        {
+          Text
+          {
+            text: display
+            anchors.fill: parent
+            anchors.margins: 10
+            color: 'black'
+            font.pixelSize: 15
+            verticalAlignment: Text.AlignVCenter
+          }
+        }
+      }
+
     }
+
+//        Rectangle
+//    {
+//      Text
+//      {
+//        text: display
+//        anchors.fill: parent
+//        anchors.margins: 10
+//        color: 'black'
+//        font.pixelSize: 15
+//        verticalAlignment: Text.AlignVCenter
+//      }
+//    }
 
     Rectangle // mask the headers
     {
