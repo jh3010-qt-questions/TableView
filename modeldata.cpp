@@ -7,9 +7,6 @@ ModelList::
 ModelList( QObject* parent )
     : QAbstractTableModel (parent )
 {
-//  mRoleNames = QAbstractTableModel::roleNames();
-//  mRoleNames.insert( 1, QByteArray( "type" ) );
-
 }
 
 
@@ -172,7 +169,6 @@ roleNames() const
 {
   return {
     { Qt::DisplayRole, "display" },
-    { Qt::DecorationRole, "decorations" },
     { int( ModelItem::Role::Selection ), "selected" },
     { int( ModelItem::Role::ColumnType ), "type" },
     { int( ModelItem::Role::ColorValue ), "colorValue" }

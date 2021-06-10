@@ -113,38 +113,7 @@ ApplicationWindow
           }
         }
       }
-
-      //      DelegateChoice {
-      ////        roleValue: "display"
-
-      //        Rectangle
-      //        {
-      //          Text
-      //          {
-      //            text: display
-      //            anchors.fill: parent
-      //            anchors.margins: 10
-      //            color: 'black'
-      //            font.pixelSize: 15
-      //            verticalAlignment: Text.AlignVCenter
-      //          }
-      //        }
-      //      }
-
     }
-
-    //        Rectangle
-    //    {
-    //      Text
-    //      {
-    //        text: display
-    //        anchors.fill: parent
-    //        anchors.margins: 10
-    //        color: 'black'
-    //        font.pixelSize: 15
-    //        verticalAlignment: Text.AlignVCenter
-    //      }
-    //    }
 
     Rectangle // mask the headers
     {
